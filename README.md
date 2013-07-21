@@ -1,0 +1,4 @@
+Othello
+=======
+
+A classical othello
