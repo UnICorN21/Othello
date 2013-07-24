@@ -1,11 +1,11 @@
+/**
+ * @author: Huxley
+ **/
+
 #include "ai_mobility.h"
+#include "defines.h"
 #include "othello_action.h"
 #include "tools.hpp"
-
-#define TOTAL BOARD_SIZE * BOARD_SIZE
-#define OPENING 8
-#define END 40
-
 
 /**
   * AIMobility class constructor.
@@ -56,11 +56,11 @@ int AIMobility::evaluate(OthelloBoard * board) {
         int coeffMobility;
         int coeffStability;
         int cloneEmpty = clone->getCount(EMPTY);
-        if(TOTAL - cloneEmpty < OPENING){
+        if(kTotal - cloneEmpty < kOpening){
             coeffCount = 2;
             coeffStability = 85;
             coeffMobility = 10;
-        } else if(TOTAL - cloneEmpty >= OPENING && TOTAL - cloneEmpty < END){
+        } else if(kTotal - cloneEmpty >= kOpening && kTotal - cloneEmpty < kEnd){
             coeffCount = 30;
             coeffStability = 80;
             coeffMobility = 20;
@@ -90,13 +90,13 @@ int AIMobility::evaluate(OthelloBoard * board) {
 int AIMobility::getNumberOfStableDisc(OthelloBoard * board, CellType player)
 {
     return getStableFromCorner(board, player, 1, 1)
-            + getStableFromCorner(board, player, 1, BOARD_SIZE)
-            + getStableFromCorner(board, player, BOARD_SIZE, 1)
-            + getStableFromCorner(board, player, BOARD_SIZE, BOARD_SIZE)
+            + getStableFromCorner(board, player, 1, kBoardSize)
+            + getStableFromCorner(board, player, kBoardSize, 1)
+            + getStableFromCorner(board, player, kBoardSize, kBoardSize)
             + getStableFromEdge(board, player, 1, true)
-            + getStableFromEdge(board, player, BOARD_SIZE, true)
+            + getStableFromEdge(board, player, kBoardSize, true)
             + getStableFromEdge(board, player, 1, false)
-            + getStableFromEdge(board, player, BOARD_SIZE, false);
+            + getStableFromEdge(board, player, kBoardSize, false);
 }
 
 /**
@@ -112,21 +112,21 @@ int AIMobility::getStableFromEdge(OthelloBoard * board, CellType player, int bor
 
     if (isBorderFull(board, border, isHorizontal)) {
         bool opponentDiscPassed = false;
-        for (int otherCoordinate = 1; otherCoordinate <= BOARD_SIZE; otherCoordinate++) {
+        for (int otherCoordinate = 1; otherCoordinate <= kBoardSize; otherCoordinate++) {
             CellType colorField = (isHorizontal) ? board->getBoard(border,otherCoordinate) : board->getBoard(otherCoordinate,border);
             if (colorField != player){
                 opponentDiscPassed = true;
             } else if (opponentDiscPassed) {
                 int numberOfconsecutiveDisc = 0;
-                while ((otherCoordinate <= BOARD_SIZE) && (colorField == player)) {
+                while ((otherCoordinate <= kBoardSize) && (colorField == player)) {
                     numberOfconsecutiveDisc++;
 
                     otherCoordinate++;
-                    if (otherCoordinate <= BOARD_SIZE){
+                    if (otherCoordinate <= kBoardSize){
                         colorField = (isHorizontal) ? board->getBoard(border, otherCoordinate) : board->getBoard(otherCoordinate,border);
                     }
                 }
-                if (otherCoordinate != BOARD_SIZE + 1)
+                if (otherCoordinate != kBoardSize + 1)
                 {
                     stableDiscs += numberOfconsecutiveDisc;
                     opponentDiscPassed = true;
@@ -146,7 +146,7 @@ int AIMobility::getStableFromEdge(OthelloBoard * board, CellType player, int bor
      * \return True if border is full.
      */
 bool AIMobility::isBorderFull(OthelloBoard * board, int border,	bool isHorizontal) {
-    for (int otherCoordinate = 1; otherCoordinate <= BOARD_SIZE; otherCoordinate++){
+    for (int otherCoordinate = 1; otherCoordinate <= kBoardSize; otherCoordinate++){
         if ((isHorizontal && (board->getBoard(border, otherCoordinate) == EMPTY))
                 || (!isHorizontal && (board->getBoard(otherCoordinate,border) == EMPTY))){
             return false;
@@ -170,8 +170,8 @@ int AIMobility::getStableFromCorner(OthelloBoard * board, CellType player,	int c
     int columnChanging = (cColumnIndex == 1) ? 1 : -1;
 
     int row = cRowIndex;
-    int rowLimit = (cRowIndex == 1) ? BOARD_SIZE : 1;
-    int columnLimit = (cColumnIndex == 1) ? BOARD_SIZE : 1;
+    int rowLimit = (cRowIndex == 1) ? kBoardSize : 1;
+    int columnLimit = (cColumnIndex == 1) ? kBoardSize : 1;
     for (row = cRowIndex; row != rowLimit; row += rowChanging){
         int column;
         for (column = cColumnIndex; column != columnLimit + 1; column += columnChanging) {
@@ -181,15 +181,15 @@ int AIMobility::getStableFromCorner(OthelloBoard * board, CellType player,	int c
                 break;
             }
         }
-        if ((columnChanging > 0 && column <= BOARD_SIZE) || (columnChanging < 0 && column >= 1)) {
+        if ((columnChanging > 0 && column <= kBoardSize) || (columnChanging < 0 && column >= 1)) {
             columnLimit = column - columnChanging;
             if (columnChanging > 0 && columnLimit == 0){
                 columnLimit++;
-            } else if (columnChanging < 0 && columnLimit == BOARD_SIZE){
+            } else if (columnChanging < 0 && columnLimit == kBoardSize){
                 columnLimit--;
             }
             if ((columnChanging > 0 && columnLimit < 0)
-                    || (columnChanging < 0 && columnLimit > BOARD_SIZE))
+                    || (columnChanging < 0 && columnLimit > kBoardSize))
             {
                 break;
             }

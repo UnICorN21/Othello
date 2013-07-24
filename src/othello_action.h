@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef OTHELLOACTION_H
 #define OTHELLOACTION_H
 
@@ -21,14 +25,14 @@ public:
 	~OthelloAction();
 	int getX();
     int getY();
-    void apply(BoardInterface * const &);
+    void apply(BoardInterface *const&);
 private:
-    void getChangesInLine(OthelloBoard * board, CellType opponent, std::list<OthelloAction *> * &actions);
-    void getChangesInCol(OthelloBoard * board, CellType opponent, std::list<OthelloAction *> * &actions);
-    void getChangesInDiag(OthelloBoard * board, CellType opponent, std::list<OthelloAction *> * &actions);
-    void getChangesInDiagAux(OthelloBoard *, CellType, std::list<OthelloAction *> * &, int, int, int, int);
-    void getChangesInLineAux(OthelloBoard *, CellType, std::list<OthelloAction *> * &, int , int);
-    void getChangesInColAux(OthelloBoard *, CellType, std::list<OthelloAction *> * &, int , int);
+    void getChangesInLine(OthelloBoard *board, CellType opponent, std::list<OthelloAction *> * &actions);
+    void getChangesInCol(OthelloBoard *board, CellType opponent, std::list<OthelloAction *> * &actions);
+    void getChangesInDiag(OthelloBoard *board, CellType opponent, std::list<OthelloAction *> * &actions);
+    void getChangesInDiagAux(OthelloBoard*, CellType, std::list<OthelloAction *> * &, int, int, int, int);
+    void getChangesInLineAux(OthelloBoard*, CellType, std::list<OthelloAction *> * &, int , int);
+    void getChangesInColAux(OthelloBoard*, CellType, std::list<OthelloAction *> * &, int , int);
 };
 
 #endif /* OTHELLOACTION_H_ */

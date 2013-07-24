@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #include "human.h"
 #include "tools.hpp"
 #include "othello_action.h"

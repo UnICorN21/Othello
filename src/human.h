@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef HUMAN_H
 #define HUMAN_H
 
@@ -12,8 +16,8 @@ class Human : public Player
 {
     Q_OBJECT
 public:
-    Human(bool black, OthelloGame * game);
-    void play(OthelloGame * board);
+    Human(bool black, OthelloGame *game);
+    void play(OthelloGame *board);
 };
 
 #endif // HUMAN_H

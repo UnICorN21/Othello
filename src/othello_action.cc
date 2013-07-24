@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #include "othello_action.h"
 #include "tools.hpp"
 
@@ -27,7 +31,7 @@ int OthelloAction::getY() {
 
 void OthelloAction::getChangesInLine(OthelloBoard * board, CellType opponent, std::list<OthelloAction *> * &actions) {
     getChangesInLineAux(board, opponent, actions, -1, 1);
-    getChangesInLineAux(board, opponent, actions, 1, BOARD_SIZE);
+    getChangesInLineAux(board, opponent, actions, 1, kBoardSize);
 
 }
 
@@ -53,7 +57,7 @@ void OthelloAction::getChangesInLineAux(OthelloBoard * board, CellType opponent,
 }
 
 void OthelloAction::getChangesInCol(OthelloBoard * board, CellType opponent, std::list<OthelloAction *> * &actions) {
-    getChangesInColAux(board, opponent, actions, 1, BOARD_SIZE);
+    getChangesInColAux(board, opponent, actions, 1, kBoardSize);
     getChangesInColAux(board, opponent, actions, -1, 1);
 }
 
@@ -82,9 +86,9 @@ void OthelloAction::getChangesInColAux(OthelloBoard * board, CellType opponent, 
 
 void OthelloAction::getChangesInDiag(OthelloBoard * board, CellType opponent, std::list<OthelloAction *> * &actions) {
     getChangesInDiagAux(board, opponent, actions, -1, -1, 1, 1);
-    getChangesInDiagAux(board, opponent, actions, -1,  1, 1, BOARD_SIZE);
-    getChangesInDiagAux(board, opponent, actions,  1, -1, BOARD_SIZE, 1);
-    getChangesInDiagAux(board, opponent, actions, 1, 1, BOARD_SIZE, BOARD_SIZE);
+    getChangesInDiagAux(board, opponent, actions, -1,  1, 1, kBoardSize);
+    getChangesInDiagAux(board, opponent, actions,  1, -1, kBoardSize, 1);
+    getChangesInDiagAux(board, opponent, actions, 1, 1, kBoardSize, kBoardSize);
 }
 
 /**
@@ -117,8 +121,8 @@ void OthelloAction::getChangesInDiagAux(OthelloBoard * board, CellType opponent,
   **/
 void OthelloAction::apply(BoardInterface * const & game) {
     using namespace std;
-    OthelloGame * test = dynamic_cast<OthelloGame *>(game);
-    OthelloBoard * board = (NULL == test) ? (OthelloBoard*) game : ((OthelloGame *)game)->getBoard();
+    OthelloGame *test = dynamic_cast<OthelloGame *>(game);
+    OthelloBoard *board = (NULL == test) ? (OthelloBoard*) game : ((OthelloGame *)game)->getBoard();
 
     board->pass(false);
     CellType type = board->blackIsToPlay() ? BLACK : WHITE;

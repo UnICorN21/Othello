@@ -1,9 +1,11 @@
+/**
+ * @author: Huxley
+ **/
+
 #include "ai_player.h"
+#include "defines.h"
 #include "othello_action.h"
 #include "othello_search_node.h"
-
-#define INF 1000000
-#define DEPTH 3
 
 /**
   * AIPlayer class constructor.
@@ -20,7 +22,7 @@ AIPlayer::AIPlayer(bool black, OthelloGame *game) : Player(black, game)
   **/
 void AIPlayer::play(OthelloGame * game) {
     OthelloSearchNode * head = new OthelloSearchNode(0, game->getBoard());
-    int score = alphaBeta(head, -INF, INF, true);
+    int score = alphaBeta(head, -kInf, kInf, true);
     OthelloAction * bestAction = head->getActionFromUtility(score);
     if(bestAction == NULL) {
         delete head;
@@ -41,14 +43,14 @@ void AIPlayer::play(OthelloGame * game) {
   * \param maximise True if node is maximizing node, false otherwise.
   **/
 int AIPlayer::alphaBeta(OthelloSearchNode * &node, int alpha, int beta, bool maximize){
-    if(node->getLevel() == DEPTH){
+    if(node->getLevel() == kDepth){
         int utility = evaluate(node->getBoard());
         return utility;
     }
     int value;
     using namespace std;
     if(maximize){
-        value = -INF;
+        value = -kInf;
         if(!node->expandNode()) {
             int utility = evaluate(node->getBoard());
             node->setUtility(utility);
@@ -64,7 +66,7 @@ int AIPlayer::alphaBeta(OthelloSearchNode * &node, int alpha, int beta, bool max
             alpha = max(alpha, value);
         }
     } else{
-        value = INF;
+        value = kInf;
         if(!node->expandNode()) {
             int utility = evaluate(node->getBoard());
             node->setUtility(utility);

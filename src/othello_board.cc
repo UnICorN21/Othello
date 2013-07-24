@@ -1,23 +1,19 @@
+/**
+ * @author: Huxley
+ **/
+
 #include "ai_mobility.h"
 #include "board_layout.h"
+#include "defines.h"
 #include "human.h"
 #include "othello_action.h"
 #include "board_layout.h"
-
-#define DIAG1 0x80
-#define DIAG2 0x20
-#define DIAG3 0x8
-#define DIAG4 0x2
-#define LINE1 0x40
-#define LINE2 0x10
-#define LINE3 0x4
-#define LINE4 0x1
 
 /**
   * OthelloBoard class constructor.
   **/
 OthelloBoard::OthelloBoard() {
-    board_ = new CellType[MAX_SIZE * MAX_SIZE];
+    board_ = new CellType[kMaxSize * kMaxSize];
 }
 
 /**
@@ -27,8 +23,8 @@ OthelloBoard::OthelloBoard() {
 OthelloBoard::OthelloBoard(OthelloBoard & board) {
     blackIsToPlay_ = board.blackIsToPlay_;
     pass_ = board.pass_;
-    board_ = new CellType[MAX_SIZE * MAX_SIZE];
-    memcpy(board_, board.board_, MAX_SIZE * MAX_SIZE * sizeof(CellType));
+    board_ = new CellType[kMaxSize * kMaxSize];
+    memcpy(board_, board.board_, kMaxSize * kMaxSize * sizeof(CellType));
 }
 
 OthelloBoard::~OthelloBoard() {
@@ -41,15 +37,15 @@ OthelloBoard::~OthelloBoard() {
 void OthelloBoard::initiate() {
     blackIsToPlay_ = true;
     pass_ = false;
-    for(int i = 0; i < MAX_SIZE; i++) {
-        for(int j = 0; j < MAX_SIZE; j++) {
-            board_[(i * MAX_SIZE) + j] = EMPTY;
+    for(int i = 0; i < kMaxSize; i++) {
+        for(int j = 0; j < kMaxSize; j++) {
+            board_[(i * kMaxSize) + j] = EMPTY;
         }
     }
-    int midlow = (BOARD_SIZE / 2);
-    int midhigh = (BOARD_SIZE / 2) + 1;
-    board_[midhigh * MAX_SIZE + midhigh] = board_[midlow * MAX_SIZE + midlow] = BLACK;
-    board_[midhigh * MAX_SIZE + midlow] = board_[midlow * MAX_SIZE + midhigh] = WHITE;
+    int midlow = (kBoardSize / 2);
+    int midhigh = (kBoardSize / 2) + 1;
+    board_[midhigh * kMaxSize + midhigh] = board_[midlow * kMaxSize + midlow] = BLACK;
+    board_[midhigh * kMaxSize + midlow] = board_[midlow * kMaxSize + midhigh] = WHITE;
 }
 
 /**
@@ -62,26 +58,26 @@ std::list<OthelloAction *> * OthelloBoard::getMoves() {
     CellType playerColor = (blackIsToPlay_) ? BLACK : WHITE;
     CellType opponentColor = (blackIsToPlay_) ? WHITE : BLACK;
     char directions;
-    for(int i = 1; i <= BOARD_SIZE; i++) {
-        for(int j = 1; j <= BOARD_SIZE; j++) {
+    for(int i = 1; i <= kBoardSize; i++) {
+        for(int j = 1; j <= kBoardSize; j++) {
             directions = canStartMove(i, j, playerColor, opponentColor);
 
-            if(directions & DIAG1)
+            if(directions & kDiag1)
                 getMovesInDiag(i, j, opponentColor, actions, true, true);
-            if(directions & DIAG2)
+            if(directions & kDiag2)
                 getMovesInDiag(i, j, opponentColor, actions, true, false);
-            if(directions & DIAG3)
+            if(directions & kDiag3)
                 getMovesInDiag(i, j, opponentColor, actions, false, false);
-            if(directions & DIAG4)
+            if(directions & kDiag4)
                 getMovesInDiag(i, j, opponentColor, actions, false, true);
 
-            if(directions & LINE1)
+            if(directions & kLine1)
                 getMovesInCol(i, j, opponentColor, actions, true);
-            if(directions & LINE2)
+            if(directions & kLine2)
                 getMovesInLine(i, j, opponentColor, actions, false);
-            if(directions & LINE3)
+            if(directions & kLine3)
                 getMovesInCol(i, j, opponentColor, actions, false);
-            if(directions & LINE4)
+            if(directions & kLine4)
                 getMovesInLine(i, j, opponentColor, actions, true);
         }
     }
@@ -94,15 +90,15 @@ std::list<OthelloAction *> * OthelloBoard::getMoves() {
   **/
 char OthelloBoard::canStartMove(int i, int j, CellType player, CellType opponent) {
     char mask = 0x0;
-    if(board_[i * MAX_SIZE + j] == player) {
-        mask = (board_[(i-1) * MAX_SIZE + (j-1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG1
-        mask = (board_[(i-1) * MAX_SIZE + j]   == opponent) ? (mask | 1) << 1 : mask << 1; // LINE1
-        mask = (board_[(i-1) * MAX_SIZE + (j+1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG2
-        mask = (board_[i * MAX_SIZE + (j+1)]   == opponent) ? (mask | 1) << 1 : mask << 1; // LINE2
-        mask = (board_[(i+1) * MAX_SIZE + (j+1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG3
-        mask = (board_[(i+1) * MAX_SIZE + j]   == opponent) ? (mask | 1) << 1 : mask << 1; // LINE3
-        mask = (board_[(i+1) * MAX_SIZE + (j-1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG4
-        if(board_[i * MAX_SIZE + (j-1)]   == opponent) mask = (mask | 1); // LINE4
+    if(board_[i * kMaxSize + j] == player) {
+        mask = (board_[(i-1) * kMaxSize + (j-1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG1
+        mask = (board_[(i-1) * kMaxSize + j]   == opponent) ? (mask | 1) << 1 : mask << 1; // LINE1
+        mask = (board_[(i-1) * kMaxSize + (j+1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG2
+        mask = (board_[i * kMaxSize + (j+1)]   == opponent) ? (mask | 1) << 1 : mask << 1; // LINE2
+        mask = (board_[(i+1) * kMaxSize + (j+1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG3
+        mask = (board_[(i+1) * kMaxSize + j]   == opponent) ? (mask | 1) << 1 : mask << 1; // LINE3
+        mask = (board_[(i+1) * kMaxSize + (j-1)] == opponent) ? (mask | 1) << 1 : mask << 1; // DIAG4
+        if(board_[i * kMaxSize + (j-1)]   == opponent) mask = (mask | 1); // LINE4
     }
     return mask;
 }
@@ -114,11 +110,11 @@ void OthelloBoard::getMovesInLine(int X, int Y, CellType opponent, std::list<Oth
     using namespace std;
     int k = left ? -1 : 1;
     int i = Y + k;
-    int ilimit = left ? 1 : BOARD_SIZE;
-    while(abs(i - ilimit) > 0 && board_[X * MAX_SIZE + i] == opponent){
+    int ilimit = left ? 1 : kBoardSize;
+    while(abs(i - ilimit) > 0 && board_[X * kMaxSize + i] == opponent){
         i += k;
     }
-    if(abs(i - ilimit) >= 0 && abs(i - (Y + k)) > 0 && EMPTY == board_[X * MAX_SIZE + i]){
+    if(abs(i - ilimit) >= 0 && abs(i - (Y + k)) > 0 && EMPTY == board_[X * kMaxSize + i]){
         moves->push_back(new OthelloAction(X, i));
     }
 }
@@ -130,11 +126,11 @@ void OthelloBoard::getMovesInCol(int X, int Y, CellType opponent, std::list<Othe
     using namespace std;
     int k = top ? -1 : 1;
     int i = X + k;
-    int ilimit = top ? 1 : BOARD_SIZE;
-    while(abs(i - ilimit) > 0 && board_[i * MAX_SIZE + Y] == opponent){
+    int ilimit = top ? 1 : kBoardSize;
+    while(abs(i - ilimit) > 0 && board_[i * kMaxSize + Y] == opponent){
         i += k;
     }
-    if(abs(i - ilimit) >= 0 && abs(i - (X + k)) > 0 && EMPTY == board_[i * MAX_SIZE + Y]){
+    if(abs(i - ilimit) >= 0 && abs(i - (X + k)) > 0 && EMPTY == board_[i * kMaxSize + Y]){
         moves->push_back(new OthelloAction(i, Y));
     }
 }
@@ -147,19 +143,19 @@ void OthelloBoard::getMovesInDiag(int X, int Y, CellType opponent, std::list<Oth
     int k, l;
     int ilimit, jlimit;
     k = top ? -1 : 1;
-    ilimit = (top) ? 1 : BOARD_SIZE;
+    ilimit = (top) ? 1 : kBoardSize;
     l = left ? -1 : 1;
-    jlimit = (left) ? 1 : BOARD_SIZE;
+    jlimit = (left) ? 1 : kBoardSize;
 
     bool done = false;
     int i = X + k;
     int j = Y + l;
-    while(abs(j - jlimit) > 0 && abs(i - ilimit) > 0 && board_[i * MAX_SIZE + j] == opponent){
+    while(abs(j - jlimit) > 0 && abs(i - ilimit) > 0 && board_[i * kMaxSize + j] == opponent){
         i += k;
         j += l;
         done = true;
     }
-    if(abs(j - jlimit) >= 0 && abs(i - ilimit) >= 0 && done && board_[i * MAX_SIZE + j] == EMPTY){
+    if(abs(j - jlimit) >= 0 && abs(i - ilimit) >= 0 && done && board_[i * kMaxSize + j] == EMPTY){
         moves->push_back(new OthelloAction(i, j));
     }
 }
@@ -171,7 +167,7 @@ void OthelloBoard::getMovesInDiag(int X, int Y, CellType opponent, std::list<Oth
   * \param type New type of the cell.
   **/
 void OthelloBoard::setCell(int i, int j, CellType type) {
-    board_[i * MAX_SIZE + j] = type;
+    board_[i * kMaxSize + j] = type;
 }
 
 /**
@@ -180,9 +176,9 @@ void OthelloBoard::setCell(int i, int j, CellType type) {
   **/
 int OthelloBoard::getCount(CellType type) {
     int count = 0;
-    for(int i = 1; i < BOARD_SIZE; i++) {
-        for(int j = 1; j < BOARD_SIZE; j++) {
-            if(board_[i * MAX_SIZE + j] == type)
+    for(int i = 1; i < kBoardSize; i++) {
+        for(int j = 1; j < kBoardSize; j++) {
+            if(board_[i * kMaxSize + j] == type)
                 count++;
         }
     }

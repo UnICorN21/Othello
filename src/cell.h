@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef CELL_H
 #define CELL_H
 
@@ -17,10 +21,10 @@ private :
     int x_;
     int y_;
     bool clickable_;
-    BoardLayout * layout_;
+    BoardLayout *layout_;
     void mousePressEvent(QMouseEvent *event);
 public:
-    Cell(int i, int j, BoardLayout * layout);
+    Cell(int i, int j, BoardLayout *layout);
     bool isClickable() { return clickable_;}
     void setClickable(bool clickable) { clickable_ = clickable;}
 

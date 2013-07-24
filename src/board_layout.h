@@ -3,6 +3,10 @@
 
 #include <QGridLayout>
 #include <QLCDNumber>
+/**
+ * @author: Huxley
+ **/
+
 #include <QMainWindow>
 #include <QPushButton>
 #include "cell.h"
@@ -24,6 +28,18 @@ class OthelloBoard;
 class BoardLayout : public QGridLayout
 {
     Q_OBJECT
+public:
+    explicit BoardLayout(OthelloGame* const &game, QWidget* = 0);
+    void initiate(bool first);
+    void updateLCD();
+    void changeCellType(int i, int j, CellType type);
+    void setCellClickable(int i, int j);
+    void setUnclickable();
+    void setAllowed();
+    void start();
+    OthelloGame* getGame() {return game_; }
+    void win(int score);
+
 private:
     QPixmap black_;
     QPixmap white_;
@@ -32,18 +48,6 @@ private:
     OthelloGame *game_;
     QLCDNumber *blackCountLcd_;
     QLCDNumber *whiteCountLcd_;
-
-public:
-    explicit BoardLayout(OthelloGame * const &game, QWidget * = 0);
-    void initiate(bool first);
-    void playAction(int i, int j);
-    void changeCellType(int i, int j, CellType type);
-    void setCellClickable(int i, int j);
-    void setUnclickable();
-    void setAllowed();
-    void start();
-    OthelloGame * getGame() {return game_; }
-    void win(int score);
 };
 
 #endif // BOARDLAYOUT_H

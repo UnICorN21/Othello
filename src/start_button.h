@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef STARTBUTTON_H
 #define STARTBUTTON_H
 
@@ -10,9 +14,9 @@ class StartButton : public QPushButton
 {
     Q_OBJECT
 private:
-    BoardLayout * layout_;
+    BoardLayout *layout_;
 public:
-    StartButton(BoardLayout * layout);
+    StartButton(BoardLayout *layout);
 };
 
 #endif // STARTBUTTON_H

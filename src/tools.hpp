@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef TOOLS_H
 #define TOOLS_H
 
@@ -11,10 +15,10 @@ public:
     * \param list A pointer to the list to delete.
     **/
     template<class T>
-    static void deleteList(std::list<T *> * list) {
+    static void deleteList(std::list<T *>* list) {
         if(list != NULL) {
             while(!list->empty()) {
-                T * elt = list->front();
+                T *elt = list->front();
                 delete elt;
                 list->pop_front();
             }

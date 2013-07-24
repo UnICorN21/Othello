@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef BOARDINTERFACE_H
 #define BOARDINTERFACE_H
 

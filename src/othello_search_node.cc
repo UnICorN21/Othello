@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #include "othello_action.h"
 #include "othello_search_node.h"
 #include "tools.hpp"

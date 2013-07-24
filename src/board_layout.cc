@@ -1,13 +1,9 @@
-#include "board_layout.h"
+/**
+ * @author: Huxley
+ **/
 
-const int kScoreColumn = MAX_SIZE + 2;
-const int kScoreLine = BOARD_SIZE - 1;
-const int kShowItemColumn = MAX_SIZE + 2;
-const int kStartButtonLine = 1;
-const int kBlackCountTextLine = 2;
-const int kBlackCountLcdLine = 3;
-const int kWhiteCountTextLine = 4;
-const int kWhiteCountLcdLine = 5;
+#include "board_layout.h"
+#include "defines.h"
 
 /**
   * BoardLayout class constructor.
@@ -31,12 +27,12 @@ BoardLayout::BoardLayout(OthelloGame *const& game, QWidget * parent) : QGridLayo
   **/
 void BoardLayout::initiate(bool first) {
     Cell *label = NULL;
-    int midlow = (BOARD_SIZE / 2);
-    int midhigh = (BOARD_SIZE / 2) + 1;
+    int midlow = (kBoardSize / 2);
+    int midhigh = (kBoardSize / 2) + 1;
     this->setHorizontalSpacing(0);
     this->setVerticalSpacing(0);
-    for(int i = 1; i <= BOARD_SIZE; i++) {
-        for(int j = 1; j <= BOARD_SIZE; j++) {
+    for(int i = 1; i <= kBoardSize; i++) {
+        for(int j = 1; j <= kBoardSize; j++) {
             if(first) {
                 label = new Cell(i, j, this);
                 label->setMinimumSize(50,50);                
@@ -69,6 +65,15 @@ void BoardLayout::initiate(bool first) {
 }
 
 /**
+ * Update the number of two LCDNumbers.
+ **/
+void BoardLayout::updateLCD(){
+    blackCountLcd_->display(game_->getBoard()->getCount(BLACK));
+    whiteCountLcd_->display(game_->getBoard()->getCount(WHITE));
+}
+
+
+/**
   * Change the type of the cell at position (i,j) to \code{type}.
   * \param i Line position.
   * \param j Column position.
@@ -96,8 +101,8 @@ void BoardLayout::setCellClickable(int i, int j) {
   * Set all cells unclickable and change their image to "empty".
   **/
 void BoardLayout::setUnclickable() {
-    for(int i = 1; i <= BOARD_SIZE; i++) {
-        for(int j = 1; j <= BOARD_SIZE; j++) {
+    for(int i = 1; i <= kBoardSize; i++) {
+        for(int j = 1; j <= kBoardSize; j++) {
             Cell *cell = (Cell*) itemAtPosition(i, j)->widget();
             if(cell->isClickable()) {
                 cell->setClickable(false);
@@ -111,8 +116,8 @@ void BoardLayout::setUnclickable() {
   * Set all the cells which hold a playable move with the "allowed" image.
   **/
 void BoardLayout::setAllowed() {
-    for(int i = 1; i <= BOARD_SIZE; i++) {
-        for(int j = 1; j <= BOARD_SIZE; j++) {
+    for(int i = 1; i <= kBoardSize; i++) {
+        for(int j = 1; j <= kBoardSize; j++) {
             Cell * cell = (Cell *) itemAtPosition(i, j)->widget();
             if(cell->isClickable())
                 cell->setPixmap(allowed_);
@@ -126,12 +131,12 @@ void BoardLayout::setAllowed() {
   **/
 void BoardLayout::win(int score) {
     QLabel * _score = (QLabel *) itemAtPosition(kScoreLine, kScoreColumn)->widget();
-    if(score == 0) {
-        _score->setText("Draw.");
+    if(0 == score) {
+        _score->setText(tr("Draw."));
     } else if (score < 0) {
-        _score->setText("White wins !");
+        _score->setText(tr("White wins !"));
     } else {
-        _score->setText("Black wins !");
+        _score->setText(tr("Black wins !"));
     }
     _score->show();
 }

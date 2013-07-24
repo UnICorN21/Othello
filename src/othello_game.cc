@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #include "ai_mobility.h"
 #include "human.h"
 #include "othello_action.h"
@@ -21,6 +25,7 @@ OthelloGame::OthelloGame()
 void OthelloGame::initiate(bool first) {
     board_->initiate();
     layout_->initiate(first);
+    layout_->updateLCD();
 }
 
 /**
@@ -140,4 +145,5 @@ void OthelloGame::playAction(int x,int y) {
         action.apply(this);
         nextTurn();
     }
+    layout_->updateLCD();
 }

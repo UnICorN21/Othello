@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -16,12 +20,12 @@ class Player : public QObject
     Q_OBJECT
 protected:
     bool isBlack_;
-    OthelloGame * game_;
+    OthelloGame *game_;
 public:
-    Player(bool black, OthelloGame * game) : isBlack_(black), game_(game) {
+    Player(bool black, OthelloGame *game) : isBlack_(black), game_(game) {
         QObject::connect(this, SIGNAL(pass(int,int)), (QObject *) game_, SLOT(playAction(int,int)));
     }
-    virtual void play(OthelloGame *) = 0;
+    virtual void play(OthelloGame*) = 0;
 signals:
     void pass(int,int);
 };

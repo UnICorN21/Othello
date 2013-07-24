@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef OTHELLOBOARD_H_
 #define OTHELLOBOARD_H_
 
@@ -18,7 +22,7 @@ class OthelloAction;
   **/
 class OthelloBoard : public BoardInterface {
 private:
-    CellType * board_;
+    CellType *board_;
     bool blackIsToPlay_;
     bool pass_;
     char canStartMove(int i, int j, CellType player, CellType opponent);
@@ -29,14 +33,14 @@ public:
 	OthelloBoard();
     OthelloBoard(OthelloBoard &board);
 	~OthelloBoard();
-    std::list<OthelloAction *> * getMoves();
+    std::list<OthelloAction *>* getMoves();
     int getCount(CellType type);
     void initiate();
     void changePlayer();
-    OthelloBoard * getBoard() { return this; }
+    OthelloBoard* getBoard() { return this; }
     void setCell(int i, int j, CellType type);
     bool blackIsToPlay() { return blackIsToPlay_; }
-    CellType getBoard(int i, int j) { return board_[i * MAX_SIZE + j]; }
+    CellType getBoard(int i, int j) { return board_[i * kMaxSize + j]; }
     void pass(bool b) { pass_ = b; }
     bool pass() {return pass_; }
 };

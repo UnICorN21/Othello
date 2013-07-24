@@ -1,3 +1,7 @@
+/**
+ * @author: Huxley
+ **/
+
 #ifndef AIPLAYER_H
 #define AIPLAYER_H
 
@@ -13,9 +17,9 @@ class AIPlayer : public Player
 {
     Q_OBJECT
 public:
-    AIPlayer(bool black, OthelloGame * game);
-    void play(OthelloGame *);
-    virtual int evaluate(OthelloBoard * board) = 0;
+    AIPlayer(bool black, OthelloGame *game);
+    void play(OthelloGame*);
+    virtual int evaluate(OthelloBoard *board) = 0;
     int alphaBeta(OthelloSearchNode * &node, int alpha, int beta, bool maximize);
 };
 
