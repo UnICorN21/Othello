@@ -8,7 +8,7 @@
 
 /**
  * OthelloMainWindow class constructor.
- * \param layout: The pointer to the current game layout.
+ * \param layout: A pointer to the current game layout.
  * \param parent
  */
 OthelloMainWindow::OthelloMainWindow(BoardLayout *layout, QWidget *parent) : QMainWindow(parent), layout_(layout) {
