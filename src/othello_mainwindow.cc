@@ -7,7 +7,7 @@
 #include "othello_mainwindow.h"
 
 /**
- * The OthelloMainWindow constructor.
+ * OthelloMainWindow class constructor.
  * \param layout: The pointer to the current game layout.
  * \param parent
  */
@@ -30,7 +30,7 @@ OthelloMainWindow::OthelloMainWindow(BoardLayout *layout, QWidget *parent) : QMa
     menuBar()->addMenu(tr("Help"))->addAction(aboutGameAction_);
 }
 /**
- * The OthelloMainWindow destructor.
+ * OthelloMainWindow class destructor.
  */
 OthelloMainWindow::~OthelloMainWindow(){
     delete layout_;
